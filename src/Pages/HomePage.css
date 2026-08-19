@@ -1,0 +1,11 @@
+.home-page {
+  margin-top: 60px;
+}
+
+.home-page-body {
+    display: flex;
+    font-size: 54px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40vh;
+}
