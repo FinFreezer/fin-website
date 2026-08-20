@@ -12,11 +12,16 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 120px;
+
+  background-image: url('../assets/rin-header.png');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .header .left-section {
-  width: 208px;
+  width: 250px;
 }
 
 @media (max-width: 800px) {
@@ -26,12 +31,21 @@
 }
 
 .header .header-link {
-  display: inline-block;
+  display: contents;
   padding: 6px 9.5px;
   border-radius: 2px;
   cursor: pointer;
   text-decoration: none;
   border: 1px solid rgba(0, 0, 0, 0);
+  margin-right: 5px;
+}
+
+.header-button {
+  padding-top: 10px;
+  color: white;
+  border: 0px;
+  background-color: transparent;
+  margin-right: 10px;
 }
 
 .header .header-link:hover {
@@ -61,13 +75,15 @@
 
 .header .middle-section {
   flex: 1;
-  max-width: 850px;
+  max-width: 400px;
   margin-left: 10px;
   margin-right: 10px;
   display: flex;
+  align-items: start;
 }
 
 .header .search-bar {
+  margin-bottom: 65px;
   flex: 1;
   width: 0;
   font-size: 16px;
@@ -81,19 +97,40 @@
 }
 
 .header .search-button {
-  background-color: rgb(186, 255, 190);
   border: none;
+  border-color: transparent;
   width: 45px;
   height: 40px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   flex-shrink: 0;
+  background-image:
+    url('../assets/NadekoThis.png'),
+    linear-gradient(90deg,
+      rgb(255, 255, 255) 0%,
+      rgb(127, 143, 206) 60%, 
+      rgb(44, 63, 116) 100%
+    );
+    
+  background-size: 
+    80%,
+    cover;
+  background-position: 
+    100%,
+    center;
+  background-blend-mode: normal;
+  background-repeat: no-repeat;
 }
 
-.header .search-icon {
-  height: 20px;
-  margin-left: 0px;
-  margin-top: 3px;
+.header .search-button:hover {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  appearance: none;
+  border-color: transparent;
+  background-size: 100%, cover;
+  background-repeat: no-repeat;
+  background-position: 100% 100%;
 }
 
 .header .right-section {
@@ -101,6 +138,16 @@
   flex-shrink: 0;
   display: flex;
   justify-content: end;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.header .right-section .login-button {
+  height: 20px;
+}
+
+.header .right-section .username-bar {
+  margin-bottom: 5px;
 }
 
 .header .orders-link {

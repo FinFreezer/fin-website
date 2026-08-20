@@ -1,0 +1,11 @@
+.videos-page {
+    display: flex;
+    justify-content: center;
+    margin-top: 60px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 2rem;
+    text-align: center;
+    background-color: rgb(207, 225, 243);
+}

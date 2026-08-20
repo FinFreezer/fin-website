@@ -17,8 +17,25 @@ export function Header() {
         <>
             <div className="header">
                 <div className="left-section">
-                    <NavLink to="/" className="header-link">
-                    Home
+                    <NavLink to="/" className="home-link header-link">
+                        <button className="header-button">
+                            Home
+                        </button>
+                    </NavLink>
+                    <NavLink className="videos-link header-link" to="/videos">
+                        <button className="header-button">
+                            Videos
+                        </button>
+                    </NavLink>
+                    <NavLink className="comics-link header-link" to="/comics">
+                        <button className="header-button">
+                            Comics
+                        </button>
+                    </NavLink>
+                    <NavLink className="games-link header-link" to="/games">
+                        <button className="header-button">
+                            Games
+                        </button>
                     </NavLink>
                 </div>
 
@@ -31,15 +48,24 @@ export function Header() {
                     />
 
                     <button 
-                    className="search-button" 
-                    onClick={() => {navigate(`/?search=${searchInput}`)}}>
+                        className="search-button" 
+                        onClick={() => {navigate(`/?search=${searchInput}`)}}>
                     </button>
                 </div>
 
                 <div className="right-section">
-                    <NavLink className="orders-link header-link" to="/orders">
-                        <span className="orders-text">Videos</span>
-                    </NavLink>
+                    <input className="username-bar"
+                        type="text"
+                        placeholder="username"
+                    />
+                    <input className="password-bar"
+                        type="password"
+                        placeholder="password"
+                    />
+                    <button
+                        className="header-button">
+                            Login
+                    </button>
                 </div>
             </div>
         </>
