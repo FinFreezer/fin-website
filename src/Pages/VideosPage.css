@@ -12,17 +12,25 @@
 
 .videos-page .branches {
     font-size: 25px;
+    margin-left: 5px;
     align-self: center;
     margin-right: auto;
     display: list-item;
     max-width: 40vw;
+    max-height: 70vh;
+    overflow: scroll;
+    scrollbar-width: none;
 }
 
 .videos-page .branches .branches-title {
     margin-left: 40px;
 }
 
-.videos-page .main-player {
+.videos-page .main-player-window {
     align-self: center;
     margin-right: auto;
+}
+
+.videos-page .main-player-window .player-placeholder-text {
+    font-size: 28px;
 }

@@ -20,11 +20,14 @@ type ReactArraySetter = React.Dispatch<React.SetStateAction<FileNode[]>>;
 type ReactStringSetter = React.Dispatch<React.SetStateAction<string>>;
 
 function VideoDisplay({ nowPlaying }: { nowPlaying: string }) {
+
     return (
-        <div className="main-player">
-            <video controls width="720" key={nowPlaying}>
+        <div className="main-player-window">
+            {nowPlaying !== '' ?
+            (<video className="main-player" controls width="720" key={nowPlaying}>
                 <source src={nowPlaying} />
-            </video>
+            </video>) : (<p className="player-placeholder-text">Choose a video file.</p>)
+            }
         </div>
     );
 }
