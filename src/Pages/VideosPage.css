@@ -9,3 +9,20 @@
     text-align: center;
     background-color: rgb(207, 225, 243);
 }
+
+.videos-page .branches {
+    font-size: 25px;
+    align-self: center;
+    margin-right: auto;
+    display: list-item;
+    max-width: 40vw;
+}
+
+.videos-page .branches .branches-title {
+    margin-left: 40px;
+}
+
+.videos-page .main-player {
+    align-self: center;
+    margin-right: auto;
+}
