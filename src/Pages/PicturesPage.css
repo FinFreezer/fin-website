@@ -1,0 +1,45 @@
+.pictures-page {
+    display: flex;
+    margin-top: 120px;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    background-color: rgb(207, 225, 243);
+}
+
+.pictures-page .branches {
+    font-size: 25px;
+    margin-left: 5px;
+    align-self: center;
+    margin-right: auto;
+    display: list-item;
+    max-width: 40vw;
+    max-height: 70vh;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+.pictures-page .branches .branches-title {
+    margin-left: 40px;
+}
+
+.pictures-page .main-display-window {
+    align-self: center;
+    margin-right: auto;
+}
+
+.pictures-page .main-display-window .main-display {
+    margin-top: 120px;
+    max-height: 80vh;
+}
+
+.pictures-page .main-display-window .display-placeholder-text {
+    font-size: 28px;
+}
+
+.pictures-page .main-display-window .main-display-window-button {
+    margin-inline-end: 25px;
+    margin-inline-start: 25px;
+    font-size: 28px;
+    cursor: pointer;
+}
