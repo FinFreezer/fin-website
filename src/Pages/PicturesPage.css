@@ -1,20 +1,19 @@
 .pictures-page {
     display: flex;
+    flex-direction: row;
+    margin: 0;
     margin-top: 120px;
     width: 100vw;
-    height: 100vh;
-    margin: 0;
+    height: calc(100vh - 120px);
     background-color: rgb(207, 225, 243);
 }
 
 .pictures-page .branches {
+    display: flex;
+    flex-direction: column;
     font-size: 25px;
-    margin-left: 5px;
-    align-self: center;
-    margin-right: auto;
-    display: list-item;
-    max-width: 40vw;
-    max-height: 70vh;
+    width: 20vw;
+    margin-top: 20vh;
     overflow: scroll;
     scrollbar-width: none;
 }
@@ -24,13 +23,23 @@
 }
 
 .pictures-page .main-display-window {
-    align-self: center;
-    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: 60%;
+    margin-top: 30px;
+    height: calc(100% - 120px);
+    padding: 20px;
+    gap: 20px;
+    flex: 1; /* Allows it to grow */
 }
 
 .pictures-page .main-display-window .main-display {
-    margin-top: 120px;
     max-height: 80vh;
+    max-width: 80vw;
+    justify-self: flex-start;
+    object-fit: contain;
 }
 
 .pictures-page .main-display-window .display-placeholder-text {
@@ -42,4 +51,6 @@
     margin-inline-start: 25px;
     font-size: 28px;
     cursor: pointer;
+    flex-shrink: 0; /* Prevents buttons from shrinking */
+    padding: 15px 25px;
 }

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Header } from '../components/Header';
 import './PicturesPage.css'
 
@@ -20,18 +20,47 @@ type ReactArraySetter = React.Dispatch<React.SetStateAction<FileNode[]>>;
 type ReactStringSetter = React.Dispatch<React.SetStateAction<string>>;
 type ReactNumberSetter = React.Dispatch<React.SetStateAction<number>>;
 
-function ImageDisplay({ nowDisplaying }: { nowDisplaying: string }) {
+function ImageDisplay({
+    nowDisplaying,
+    setNowDisplaying,
+    currentPage,
+    setCurrentPage,
+}: {
+    nowDisplaying: string,
+    setNowDisplaying: ReactStringSetter,
+    currentPage: number,
+    setCurrentPage: ReactNumberSetter;
+}
+) {
+
+    const forwardClick = async () => {
+        const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);
+        setCurrentPage(currentPage + 1);
+        setNowDisplaying(newDisplay);
+    }
+
+    const backwardClick = async () => {
+        const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`);
+        setCurrentPage(currentPage - 1);
+        setNowDisplaying(newDisplay);
+    }
 
     return (
         <div className="main-display-window">
-            <button className="main-display-window-button">◀</button>
+            <button className="main-display-window-button"
+                onClick={backwardClick}>◀</button>
             {nowDisplaying !== '' ?
-                (<img className="main-display" src={nowDisplaying} key={nowDisplaying}>
-                </img>
+                (
+                    <img className="main-display"
+                        alt="Currently displayed page."
+                        src={nowDisplaying} 
+                        key={nowDisplaying} 
+                        title="Tip: You can use arrow keys to navigate" />
                 ) : (
-                    <p className="display-placeholder-text">Choose an image archive.</p>)
+                    <p className="display-placeholder-text">Choose an image archive.</p>
+                )
             }
-            <button className="main-display-window-button">▶</button>
+            <button className="main-display-window-button" onClick={forwardClick}>▶</button>
         </div>
     );
 }
@@ -39,14 +68,13 @@ function ImageDisplay({ nowDisplaying }: { nowDisplaying: string }) {
 function Sidebar(
     { currentDir, setCurrentDir,
         currentPath, setCurrentPath,
-        nowDisplaying, setNowDisplaying,
+        setNowDisplaying,
         currentPage, setCurrentPage,
     }: {
         currentDir: FileNode,
         setCurrentDir: ReactNodeSetter,
         currentPath: FileNode[],
         setCurrentPath: ReactArraySetter,
-        nowDisplaying: string,
         setNowDisplaying: ReactStringSetter,
         currentPage: number,
         setCurrentPage: ReactNumberSetter;
@@ -56,6 +84,7 @@ function Sidebar(
     const directoryClick = async (child: FileNode) => {
         setCurrentPath([...currentPath, child]);
         setCurrentDir(child);
+        setCurrentPage(1);
         /*const response = await axios.get(currentPath);
         const Tree: ListDirResponse = response.data;
         setCurrentDir(Tree.directory);*/
@@ -72,8 +101,7 @@ function Sidebar(
         const sourceString = currentPath
             .map(pathNode => pathNode.name)
             .join('/') + "/" + file.name;
-        setNowDisplaying(`/api/streamarchive/${sourceString}?Page=${currentPage}`)
-        console.log(nowDisplaying);
+        setNowDisplaying(`/api/streamarchive/${sourceString}?Page=${currentPage}`);
     }
 
     return (
@@ -132,7 +160,7 @@ export function PicturesPage() {
 
     useEffect(
         () => {
-            const displayVideos = async () => {
+            const displayImages = async () => {
                 const response = await axios.get(`/api/dir/Pictures?dirOnly=false&recDepth=99`);
                 const Tree: ListDirResponse = response.data;
                 setCurrentDir(Tree.directory)
@@ -140,14 +168,53 @@ export function PicturesPage() {
                 setIsLoading(false);
             }
 
-            displayVideos();
+            displayImages();
         }, []
+    )
+
+
+    const handleKeyDown = useCallback((event: KeyboardEvent) => {
+        const forwardClick = async () => {
+            const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);
+            setCurrentPage(currentPage + 1);
+            console.log(currentPage);
+            setNowDisplaying(newDisplay);
+        }
+
+        const backwardClick = async () => {
+            const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`);
+            setCurrentPage(currentPage - 1);
+            console.log(currentPage);
+            setNowDisplaying(newDisplay);
+        }
+        switch (event.key) {
+            case 'ArrowRight':
+                event.preventDefault();
+                forwardClick();
+                break;
+            case 'ArrowLeft':
+                event.preventDefault();
+                backwardClick();
+                break;
+            default:
+                break;
+        }
+    }, [currentPage, nowDisplaying]);
+
+    useEffect(
+        () => {
+            document.addEventListener('keydown', handleKeyDown);
+
+            return () => {
+                document.removeEventListener('keydown', handleKeyDown);
+            }
+        }, [handleKeyDown]
     )
 
     if (isLoading) {
         return (
             <>
-                <title>Videos</title>
+                <title>Comics</title>
                 <Header />
                 <div className="pictures-page">
                     <div className="loading">Loading directories...</div>
@@ -157,7 +224,7 @@ export function PicturesPage() {
     }
     return (
         <>
-            <title>Videos</title>
+            <title>Comics</title>
             <Header />
             <div className="pictures-page">
                 <Sidebar
@@ -165,11 +232,14 @@ export function PicturesPage() {
                     setCurrentDir={setCurrentDir}
                     currentPath={currentPath}
                     setCurrentPath={setCurrentPath}
+                    setNowDisplaying={setNowDisplaying}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage} />
+                <ImageDisplay
                     nowDisplaying={nowDisplaying}
                     setNowDisplaying={setNowDisplaying}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage} />
-                <ImageDisplay nowDisplaying={nowDisplaying} />
             </div>
         </>
     );
