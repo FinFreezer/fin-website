@@ -51,11 +51,18 @@ function ImageDisplay({
                 onClick={backwardClick}>◀</button>
             {nowDisplaying !== '' ?
                 (
-                    <img className="main-display"
-                        alt="Currently displayed page."
-                        src={nowDisplaying} 
-                        key={nowDisplaying} 
-                        title="Tip: You can use arrow keys to navigate" />
+                    <div className="double-page">
+                        <img className="main-display-1"
+                            alt="Currently displayed page."
+                            src={nowDisplaying} 
+                            key={nowDisplaying} 
+                            title="Tip: You can use arrow keys to navigate" />
+                        <img className="main-display-2"
+                            alt="Currently displayed page."
+                            src={nowDisplaying} 
+                            key={nowDisplaying+1} 
+                            title="Tip: You can use arrow keys to navigate" />
+                    </div>
                 ) : (
                     <p className="display-placeholder-text">Choose an image archive.</p>
                 )
@@ -227,16 +234,16 @@ export function PicturesPage() {
             <title>Comics</title>
             <Header />
             <div className="pictures-page">
+                <ImageDisplay
+                    nowDisplaying={nowDisplaying}
+                    setNowDisplaying={setNowDisplaying}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage} />
                 <Sidebar
                     currentDir={currentDir}
                     setCurrentDir={setCurrentDir}
                     currentPath={currentPath}
                     setCurrentPath={setCurrentPath}
-                    setNowDisplaying={setNowDisplaying}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage} />
-                <ImageDisplay
-                    nowDisplaying={nowDisplaying}
                     setNowDisplaying={setNowDisplaying}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage} />
