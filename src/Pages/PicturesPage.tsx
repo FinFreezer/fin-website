@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback } from 'react';
 import { Header } from '../components/Header';
+import { ShiftPage } from '../utils/shiftPage';
 import './PicturesPage.css'
 
 interface FileNode {
@@ -15,10 +16,16 @@ interface ListDirResponse {
     directory: FileNode;
 }
 
+interface PageObject {
+    pageOneSource: string;
+    pageTwoSource: string;
+}
+
 type ReactNodeSetter = React.Dispatch<React.SetStateAction<FileNode>>;
 type ReactArraySetter = React.Dispatch<React.SetStateAction<FileNode[]>>;
-type ReactStringSetter = React.Dispatch<React.SetStateAction<string>>;
+//type ReactStringSetter = React.Dispatch<React.SetStateAction<string>>;
 type ReactNumberSetter = React.Dispatch<React.SetStateAction<number>>;
+type ReactPageSetter = React.Dispatch<React.SetStateAction<PageObject>>;
 
 function ImageDisplay({
     nowDisplaying,
@@ -26,41 +33,55 @@ function ImageDisplay({
     currentPage,
     setCurrentPage,
 }: {
-    nowDisplaying: string,
-    setNowDisplaying: ReactStringSetter,
+    nowDisplaying: PageObject,
+    setNowDisplaying: ReactPageSetter,
     currentPage: number,
     setCurrentPage: ReactNumberSetter;
 }
 ) {
 
     const forwardClick = async () => {
-        const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);
-        setCurrentPage(currentPage + 1);
-        setNowDisplaying(newDisplay);
+        /*const NewPage: PageObject = {
+            pageOneSource: nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage - 2}`),
+            pageTwoSource: nowDisplaying.pageTwoSource.replace(`Page=${currentPage+1}`, `Page=${currentPage - 1}`),
+        }
+        const newDisplay = nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);*/
+        const nextPage = currentPage + 2;
+        setCurrentPage(nextPage);
+        const NewPage = ShiftPage(nowDisplaying, nextPage);
+        console.log(nowDisplaying);
+        setNowDisplaying(NewPage);
     }
 
     const backwardClick = async () => {
-        const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`);
-        setCurrentPage(currentPage - 1);
-        setNowDisplaying(newDisplay);
+        /*const NewPage: PageObject = {
+            pageOneSource: nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage - 2}`),
+            pageTwoSource: nowDisplaying.pageTwoSource.replace(`Page=${currentPage+1}`, `Page=${currentPage - 1}`),
+        }
+        const newDisplay = nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);*/
+        const previousPage = currentPage - 2;
+        setCurrentPage(previousPage);
+        const NewPage = ShiftPage(nowDisplaying, previousPage)
+        console.log(nowDisplaying);
+        setNowDisplaying(NewPage);
     }
 
     return (
         <div className="main-display-window">
             <button className="main-display-window-button"
                 onClick={backwardClick}>◀</button>
-            {nowDisplaying !== '' ?
+            {nowDisplaying.pageOneSource !== '' ?
                 (
                     <div className="double-page">
                         <img className="main-display-1"
-                            alt="Currently displayed page."
-                            src={nowDisplaying} 
-                            key={nowDisplaying} 
+                            alt="Currently displayed previous page."
+                            src={nowDisplaying.pageOneSource}
+                            key={nowDisplaying.pageOneSource} 
                             title="Tip: You can use arrow keys to navigate" />
                         <img className="main-display-2"
-                            alt="Currently displayed page."
-                            src={nowDisplaying} 
-                            key={nowDisplaying+1} 
+                            alt="Currently displayed next page."
+                            src={nowDisplaying.pageTwoSource}
+                            key={nowDisplaying.pageTwoSource} 
                             title="Tip: You can use arrow keys to navigate" />
                     </div>
                 ) : (
@@ -76,14 +97,13 @@ function Sidebar(
     { currentDir, setCurrentDir,
         currentPath, setCurrentPath,
         setNowDisplaying,
-        currentPage, setCurrentPage,
+        setCurrentPage,
     }: {
         currentDir: FileNode,
         setCurrentDir: ReactNodeSetter,
         currentPath: FileNode[],
         setCurrentPath: ReactArraySetter,
-        setNowDisplaying: ReactStringSetter,
-        currentPage: number,
+        setNowDisplaying: ReactPageSetter,
         setCurrentPage: ReactNumberSetter;
     }
 ) {
@@ -105,10 +125,16 @@ function Sidebar(
     }
 
     const setImageSource = async (file: FileNode) => {
+        const currentPageInit = 1;
+        setCurrentPage(currentPageInit);
         const sourceString = currentPath
             .map(pathNode => pathNode.name)
             .join('/') + "/" + file.name;
-        setNowDisplaying(`/api/streamarchive/${sourceString}?Page=${currentPage}`);
+        const NewPages: PageObject = {
+            pageOneSource: `/api/streamarchive/${sourceString}?Page=${currentPageInit}`,
+            pageTwoSource: `/api/streamarchive/${sourceString}?Page=${currentPageInit+1}`,
+        }
+        setNowDisplaying(NewPages);
     }
 
     return (
@@ -159,10 +185,11 @@ function Sidebar(
 
 export function PicturesPage() {
     const emptyNode = {} as FileNode;
+    const emptyPages = {} as PageObject;
     const [currentDir, setCurrentDir] = useState(emptyNode);
     const [isLoading, setIsLoading] = useState(true);
     const [currentPath, setCurrentPath] = useState<FileNode[]>([]);
-    const [nowDisplaying, setNowDisplaying] = useState('');
+    const [nowDisplaying, setNowDisplaying] = useState(emptyPages);
     const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(
@@ -182,17 +209,29 @@ export function PicturesPage() {
 
     const handleKeyDown = useCallback((event: KeyboardEvent) => {
         const forwardClick = async () => {
-            const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);
-            setCurrentPage(currentPage + 1);
-            console.log(currentPage);
-            setNowDisplaying(newDisplay);
+            /*const NewPage: PageObject = {
+                pageOneSource: nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage + 2}`),
+                pageTwoSource: nowDisplaying.pageTwoSource.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`),
+            }
+            const newDisplay = nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage + 1}`);*/
+            const nextPage = currentPage + 2;
+            setCurrentPage(nextPage);
+            const NewPage = ShiftPage(nowDisplaying, nextPage);
+            console.log(NewPage);
+            setNowDisplaying(NewPage);
         }
 
         const backwardClick = async () => {
-            const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`);
-            setCurrentPage(currentPage - 1);
-            console.log(currentPage);
-            setNowDisplaying(newDisplay);
+            /*const NewPage: PageObject = {
+                pageOneSource: nowDisplaying.pageOneSource.replace(`Page=${currentPage}`, `Page=${currentPage - 2}`),
+                pageTwoSource: nowDisplaying.pageTwoSource.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`),
+            }
+            const newDisplay = nowDisplaying.replace(`Page=${currentPage}`, `Page=${currentPage - 1}`);*/
+            const previousPage = currentPage - 2;
+            setCurrentPage(previousPage);
+            const NewPage = ShiftPage(nowDisplaying, previousPage);
+            console.log(NewPage);
+            setNowDisplaying(NewPage);
         }
         switch (event.key) {
             case 'ArrowRight':
@@ -234,16 +273,16 @@ export function PicturesPage() {
             <title>Comics</title>
             <Header />
             <div className="pictures-page">
-                <ImageDisplay
-                    nowDisplaying={nowDisplaying}
-                    setNowDisplaying={setNowDisplaying}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage} />
+                
                 <Sidebar
                     currentDir={currentDir}
                     setCurrentDir={setCurrentDir}
                     currentPath={currentPath}
                     setCurrentPath={setCurrentPath}
+                    setNowDisplaying={setNowDisplaying}
+                    setCurrentPage={setCurrentPage} />
+                <ImageDisplay
+                    nowDisplaying={nowDisplaying}
                     setNowDisplaying={setNowDisplaying}
                     currentPage={currentPage}
                     setCurrentPage={setCurrentPage} />

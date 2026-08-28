@@ -48,12 +48,11 @@
 
 .pictures-page .main-display-window .main-display-1,
 .pictures-page .main-display-window .main-display-2 {
-    margin-right: 50px;
     margin-top: 15px;
     width: 50%; /* Each takes half the container */
     max-width: 50%;
     height: auto;
-    max-height: 85vh;
+    max-height: calc(98vh - 120px);
     object-fit: contain;
     flex-shrink: 1; /* Allow shrinking */
     min-width: 0; /* Prevent overflow */

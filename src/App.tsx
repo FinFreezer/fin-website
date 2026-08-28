@@ -4,6 +4,7 @@ import { HomePage } from './Pages/HomePage'
 import { NotFoundPage } from './Pages/NotFoundPage'
 import { VideosPage } from './Pages/VideosPage'
 import { PicturesPage } from './Pages/PicturesPage'
+import { GamesPage } from './Pages/GamesPage'
 import './App.css'
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <Route index element={<HomePage />} />
       <Route path="/videos" element={<VideosPage />} />
       <Route path="/comics" element={<PicturesPage />} />
+      <Route path="/games" element={<GamesPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
