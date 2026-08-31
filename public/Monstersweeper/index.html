@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Monstersweeper</title>
+    <style>
+        /* Ebiten sizes its canvas to 100% of the document body, so let the
+           body exactly fill the iframe viewport. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+    <script src="wasm_exec.js"></script>
+    <script>
+        (async () => {
+            const go = new Go();
+            try {
+                const resp = await fetch('monstersweeper-game.wasm');
+                if (!resp.ok) {
+                    throw new Error('Failed to fetch monstersweeper-game.wasm: ' + resp.status);
+                }
+                const bytes = await resp.arrayBuffer();
+                const { instance } = await WebAssembly.instantiate(bytes, go.importObject);
+                await go.run(instance);
+            } catch (err) {
+                console.error('Failed to load Monstersweeper:', err);
+                document.body.textContent = 'Failed to load game: ' + err;
+            }
+        })();
+    </script>
+</body>
+</html>

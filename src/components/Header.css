@@ -46,6 +46,22 @@
   border: 0px;
   background-color: transparent;
   margin-right: 10px;
+  color: white;
+  text-shadow:
+  -1px -1px 0 #000,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000; 
+}
+
+.header-text {
+  font-size: 16px;
+  color: black;
+  text-shadow:
+  -1px -1px 0 white,
+  1px -1px 0 white,
+  -1px 1px 0 white,
+  1px 1px 0 white; 
 }
 
 .header .header-link:hover {

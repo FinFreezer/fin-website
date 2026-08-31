@@ -1,0 +1,20 @@
+/* The game runs in its own document (public/Monstersweeper/index.html),
+   embedded here via an iframe. This keeps Ebiten's mouse-coordinate mapping
+   correct: inside the iframe the game's canvas fills the iframe viewport, so
+   clicks line up with what's drawn. The iframe is what we size/position. */
+.games-page {
+  margin-top: 120px;               /* clear the fixed 120px header */
+  height: calc(100vh - 120px);     /* fill the viewport below the header */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-frame {
+  width: 80vw;                     /* the game display area */
+  height: calc(80vh - 120px);
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: #000;
+}
