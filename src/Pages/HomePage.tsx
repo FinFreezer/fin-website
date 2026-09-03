@@ -1,12 +1,18 @@
 import { Header } from '../components/Header';
+import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './HomePage.css'
 
-export function HomePage() {
+export function HomePage({ activeUser, setActiveUser }: 
+    { 
+        activeUser: UserType | null, 
+        setActiveUser: ReactUserSetter,
+    }
+) {
 
     return (
         <>
             <title>Welcome</title>
-            <Header />
+            <Header activeUser={activeUser} setActiveUser={setActiveUser} />
             <div className="home-page">
                 <div className="home-page-body">
                     Page under construction

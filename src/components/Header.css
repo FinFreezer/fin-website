@@ -155,7 +155,15 @@
   display: flex;
   justify-content: end;
   flex-direction: column;
-  margin-bottom: 30px;
+  margin-bottom: 15px;
+}
+
+.header .right-section .button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 8px; /* Space between buttons */
+    justify-content: space-between; /* Or use 'center' to center them */
+    width: 100%;
 }
 
 .header .right-section .login-button {

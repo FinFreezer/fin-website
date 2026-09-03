@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useState, useCallback } from 'react';
 import { Header } from '../components/Header';
 import { ShiftPage } from '../utils/shiftPage';
+import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './PicturesPage.css'
 
 interface FileNode {
@@ -94,7 +95,7 @@ function ImageDisplay({
 }
 
 function Sidebar(
-    { currentDir, setCurrentDir,
+    {   currentDir, setCurrentDir,
         currentPath, setCurrentPath,
         setNowDisplaying,
         setCurrentPage,
@@ -183,7 +184,12 @@ function Sidebar(
     );
 }
 
-export function PicturesPage() {
+export function PicturesPage({ activeUser, setActiveUser }: 
+    {
+        activeUser: UserType | null,
+        setActiveUser: ReactUserSetter,
+    }
+) {
     const emptyNode = {} as FileNode;
     const emptyPages = {} as PageObject;
     const [currentDir, setCurrentDir] = useState(emptyNode);
@@ -261,7 +267,7 @@ export function PicturesPage() {
         return (
             <>
                 <title>Comics</title>
-                <Header />
+                <Header activeUser={activeUser} setActiveUser={setActiveUser} />
                 <div className="pictures-page">
                     <div className="loading">Loading directories...</div>
                 </div>
@@ -271,7 +277,7 @@ export function PicturesPage() {
     return (
         <>
             <title>Comics</title>
-            <Header />
+            <Header activeUser={activeUser} setActiveUser={setActiveUser} />
             <div className="pictures-page">
                 
                 <Sidebar

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { Header } from '../components/Header';
+import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './VideosPage.css'
 
 interface FileNode {
@@ -110,7 +111,12 @@ function Sidebar({ currentDir, setCurrentDir, currentPath, setCurrentPath, nowPl
     );
 }
 
-export function VideosPage() {
+export function VideosPage({ activeUser, setActiveUser}:
+    {
+        activeUser: UserType | null,
+        setActiveUser: ReactUserSetter,
+    }
+) {
     const emptyNode = {} as FileNode;
     const [currentDir, setCurrentDir] = useState(emptyNode);
     const [isLoading, setIsLoading] = useState(true);
@@ -135,7 +141,7 @@ export function VideosPage() {
         return (
             <>
                 <title>Videos</title>
-                <Header />
+                <Header activeUser={activeUser} setActiveUser={setActiveUser} />
                 <div className="videos-page">
                     <div className="loading">Loading directories...</div>
                 </div>
@@ -145,7 +151,7 @@ export function VideosPage() {
     return (
         <>
             <title>Videos</title>
-            <Header />
+            <Header activeUser={activeUser} setActiveUser={setActiveUser} />
             <div className="videos-page">
                 <Sidebar currentDir={currentDir} setCurrentDir={setCurrentDir} currentPath={currentPath} setCurrentPath={setCurrentPath} nowPlaying={nowPlaying} setNowPlaying={setNowPlaying} />
                 <VideoDisplay nowPlaying={nowPlaying} />

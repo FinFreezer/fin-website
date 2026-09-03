@@ -1,4 +1,5 @@
 import { Header } from '../components/Header';
+import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './GamesPage.css'
 
 function EbitenGame() {
@@ -14,10 +15,15 @@ function EbitenGame() {
     );
 }
 
-export function GamesPage() {
+export function GamesPage({ activeUser, setActiveUser }: 
+    {
+        activeUser: UserType | null,
+        setActiveUser: ReactUserSetter,
+    }
+) {
     return (
         <>
-            <Header />
+            <Header activeUser={activeUser} setActiveUser={setActiveUser} />
             <EbitenGame />
         </>
     );

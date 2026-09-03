@@ -1,32 +1,85 @@
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router'
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
+import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './Header.css'
 
 //type ReactKeyEvent = React.KeyboardEvent<HTMLInputElement>;
 type ReactChangeEvent = React.ChangeEvent<HTMLInputElement>;
-interface UserType {
-    Username: string;
-    Admin: boolean;
-}
+
+axios.defaults.withCredentials = true;
 
 //Header(props) { const cart = props.cart; }
-export function Header() {
-    const [activeUser, setActiveUser] = useState<UserType | null>(null);
+export function Header({ activeUser, setActiveUser }:
+    {
+        activeUser: UserType | null,
+        setActiveUser: ReactUserSetter
+    }
+) {
+    //const [activeUser, setActiveUser] = useState<UserType | null>(null);
     const [nameInput, setNameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
-    const navigate = useNavigate();
     const [searchInput, setSearchInput] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+    const navigate = useNavigate();
+
+    const handleRegister = async () => {
+        try {
+            const userName = nameInput;
+            const passWord = passwordInput;
+            const response = await axios.post('/api/register',
+                {
+                    name: userName,
+                    password: passWord
+                }
+            )
+            if (response.status === 200) {
+                setNameInput('Registration successful.')
+                setTimeout(
+                    () => {
+                        setNameInput('');
+                    }, 2500
+                )
+            }
+            console.log(response.data.reply)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const checkAuthStatus = useCallback(
+        async () => {
+            try {
+                const response = await axios.get("/api/verify")
+
+                if (response.status === 200) {
+                    setActiveUser(
+                        {
+                            Username: response.data.username || 'User',
+                            Admin: response.data.authorization || false,
+                        }
+                    );
+                } else {
+                    setActiveUser(null);
+                }
+            } catch (error) {
+                console.log(error)
+                setActiveUser(null);
+            } finally {
+                setIsLoading(false)
+            }
+    }, [setActiveUser]
+    );
 
     function changeSearchInput(event: ReactChangeEvent) {
         setSearchInput(event.target.value);
     }
 
     const handleLogin = async () => {
-        const response = await axios.post(`api/login`, { 
-            Name: nameInput, 
-            Password: passwordInput, 
-            WithToken: false 
+        const response = await axios.post(`api/login`, {
+            Name: nameInput,
+            Password: passwordInput,
+            WithToken: false
         });
         let currentUser = null;
         console.log(response.data);
@@ -42,9 +95,33 @@ export function Header() {
         setPasswordInput('');
     }
 
-    const handleLogout = () => {
-        setActiveUser(null);
+    const handleLogout = async () => {
+        try {
+            if (activeUser) {
+                await axios.post('/api/logout',
+                    { name: activeUser.Username },
+                    { withCredentials: true },
+                );
+            } else {
+                await axios.post('/api/logout', {}, { withCredentials: true });
+            }
+
+            setActiveUser(null);
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+            setActiveUser(null);
+            navigate("/");
+        }
+
     }
+
+    useEffect(
+        () => {
+            checkAuthStatus();
+        }, [checkAuthStatus]
+    );
+
     return (
         <>
             <div className="header">
@@ -86,7 +163,9 @@ export function Header() {
                 </div>
 
                 <div className="right-section">
-                    {!activeUser ? (
+                    {isLoading ? (
+                        <p className="header-text">Looking for active session...</p>
+                    ) : !activeUser ? (
                         <>
                             <input className="username-bar"
                                 type="text"
@@ -100,10 +179,16 @@ export function Header() {
                                 onChange={(e) => setPasswordInput(e.target.value)}
                                 placeholder="password"
                             />
-                            <button
-                                className="header-button" onClick={handleLogin}>
-                                Login
-                            </button>
+                            <div className="button-row">
+                                <button
+                                    className="header-button" onClick={handleLogin}>
+                                    Login
+                                </button>
+                                <button
+                                    className="header-button" onClick={handleRegister}>
+                                    Register User
+                                </button>
+                            </div>
                         </>
                     ) : (
                         <>
