@@ -31,7 +31,8 @@ export function HomePage({ activeUser, setActiveUser }:
 function GuestBook() {
     return (
         <div className="home-guestbook">
-            <input className="guestbook-input">
+            <input className="guestbook-input"
+                placeholder='Add greeting'>
             </input>
         </div>
     );
