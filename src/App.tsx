@@ -17,7 +17,7 @@ function App() {
       <Route path="/videos" element={<VideosPage activeUser={activeUser} setActiveUser={setActiveUser} />} />
       <Route path="/comics" element={<PicturesPage activeUser={activeUser} setActiveUser={setActiveUser} />} />
       <Route path="/games" element={<GamesPage activeUser={activeUser} setActiveUser={setActiveUser} />} />
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path="*" element={<NotFoundPage activeUser={activeUser} setActiveUser={setActiveUser} />} />
     </Routes>
   )
 }

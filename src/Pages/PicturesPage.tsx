@@ -3,6 +3,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { Header } from '../components/Header';
 import { ShiftPage } from '../utils/shiftPage';
 import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
+import { NotAuthorized } from '../components/AuthorizationFail';
 import './PicturesPage.css'
 
 interface FileNode {
@@ -262,7 +263,13 @@ export function PicturesPage({ activeUser, setActiveUser }:
             }
         }, [handleKeyDown]
     )
-
+    if (!activeUser?.Admin) {
+        return (
+            <>
+                <NotAuthorized activeUser={activeUser} setActiveUser={setActiveUser}/>
+            </>
+        );
+    }
     if (isLoading) {
         return (
             <>

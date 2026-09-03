@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react'
 import { Header } from '../components/Header';
+import { NotAuthorized } from '../components/AuthorizationFail';
 import type { UserType, ReactUserSetter } from '../utils/userTypeDef';
 import './VideosPage.css'
 
@@ -136,7 +137,13 @@ export function VideosPage({ activeUser, setActiveUser}:
             displayVideos();
         }, []
     )
-
+    if (!activeUser?.Admin) {
+            return (
+                <>
+                    <NotAuthorized activeUser={activeUser} setActiveUser={setActiveUser}/>
+                </>
+            );
+        }
     if (isLoading) {
         return (
             <>
