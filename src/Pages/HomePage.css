@@ -1,7 +1,7 @@
 .home-page {
   margin-top: 120px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   height: calc(100vh - 120px); /* Full viewport height */
   overflow: hidden; /* Prevents scrollbars on the container */
   background-color: rgb(207, 225, 243);
