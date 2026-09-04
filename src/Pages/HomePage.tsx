@@ -28,8 +28,9 @@ export function HomePage({ activeUser, setActiveUser }:
     const [guestbookInput, setGuestbookInput] = useState('');
 
     useEffect(() => {
-        localStorage.setItem('messages', JSON.stringify(guestbookMessages))
-    }, [guestbookMessages])
+            localStorage.setItem('messages', JSON.stringify(guestbookMessages))
+        }, [guestbookMessages]
+    )
 
     function SendMessage() {
         const timeDisplay = dayjs(dayjs().valueOf()).format('DD/MM/YYYY - HH:mm')
@@ -59,14 +60,14 @@ export function HomePage({ activeUser, setActiveUser }:
                         title="LAID-BACK CAMP SEASON2 - Opening | Seize The Day"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
                     </iframe>
-                </div>
-                <GuestBook
-                    sendMessage={SendMessage}
-                    guestbookInput={guestbookInput}
-                    setGuestbookInput={setGuestbookInput}
-                    guestbookMessages={guestbookMessages}
-                    setGuestbookMessages={setGuestbookMessages}
-                    activeUser={activeUser} />
+                    </div>
+                    <GuestBook
+                        sendMessage={SendMessage}
+                        guestbookInput={guestbookInput}
+                        setGuestbookInput={setGuestbookInput}
+                        guestbookMessages={guestbookMessages}
+                        setGuestbookMessages={setGuestbookMessages}
+                        activeUser={activeUser} />
             </div>
         </>
     );
