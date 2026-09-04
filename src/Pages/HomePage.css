@@ -21,6 +21,60 @@
     
 }
 
-.home-page-body .home-guestbook {
-  margin-top: 50px;
+.home-guestbook {
+  display: flex;
+  margin-top: 180px;
+  margin-left: 120px;
+  flex-direction: column;
+  max-width: 310px;
+}
+
+.guestbook-input {
+  display: flex;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.guestbook-header {
+  width: 305px;
+  margin-bottom: 12px;
+}
+
+.guestbook-title {
+  display: flex;
+  align-self: center;
+}
+
+.guestbook-clear-button {
+  max-height: 30px;
+  background-color: rgb(207, 225, 243);
+  border-width: 2px;
+}
+
+.guestbook-message {
+  background-color: rgba(207, 212, 243, 0.327);
+  margin-top: 5px;
+  font-size: 20px;
+}
+
+.message-timestamp {
+  margin-top: 2px;
+  font-size: 12px;
+}
+
+.message-display {
+  overflow: scroll;
+  scrollbar-width: none;
+  margin-bottom: 20px;
+}
+
+.delete-message-button {
+  background-color: rgba(207, 212, 243, 0);
+  height: 20px;
+  width: 10px;
+  background-image: url('../assets/delete-image.png');
+  background-position: center;
+  background-size: 100%;
+  border-width: 0px;
+  background-repeat: no-repeat;
 }
