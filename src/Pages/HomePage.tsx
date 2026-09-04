@@ -28,8 +28,9 @@ export function HomePage({ activeUser, setActiveUser }:
     const [guestbookInput, setGuestbookInput] = useState('');
 
     useEffect(() => {
-        localStorage.setItem('messages', JSON.stringify(guestbookMessages))
-    }, [guestbookMessages])
+            localStorage.setItem('messages', JSON.stringify(guestbookMessages))
+        }, [guestbookMessages]
+    )
 
     function SendMessage() {
         const timeDisplay = dayjs(dayjs().valueOf()).format('DD/MM/YYYY - HH:mm')
