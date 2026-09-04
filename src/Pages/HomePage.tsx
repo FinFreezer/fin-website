@@ -53,13 +53,14 @@ export function HomePage({ activeUser, setActiveUser }:
             <Header activeUser={activeUser} setActiveUser={setActiveUser} />
             <div className="home-page">
                 <div className="home-page-body">
-                    Page under construction
-                    {activeUser?.Admin && <button className="guestbook-clear-button" onClick={() => { setGuestbookMessages([]) }}>Clear guestbook</button>}
-                    <iframe width="800" height="600"
-                        src="https://www.youtube.com/embed/pNNwudhgvEY"
-                        title="LAID-BACK CAMP SEASON2 - Opening | Seize The Day"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
-                    </iframe>
+                    <div className="welcome-display">
+                        <p className="welcome-display-title">Page under construction</p>
+                        {activeUser?.Admin && <button className="guestbook-clear-button" onClick={() => { setGuestbookMessages([]) }}>Clear guestbook</button>}
+                        <iframe width="800" height="600"
+                            src="https://www.youtube.com/embed/pNNwudhgvEY"
+                            title="LAID-BACK CAMP SEASON2 - Opening | Seize The Day"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+                        </iframe>
                     </div>
                     <GuestBook
                         sendMessage={SendMessage}
@@ -68,6 +69,8 @@ export function HomePage({ activeUser, setActiveUser }:
                         guestbookMessages={guestbookMessages}
                         setGuestbookMessages={setGuestbookMessages}
                         activeUser={activeUser} />
+                </div>
+                    
             </div>
         </>
     );
