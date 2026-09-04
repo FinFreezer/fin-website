@@ -59,14 +59,14 @@ export function HomePage({ activeUser, setActiveUser }:
                         title="LAID-BACK CAMP SEASON2 - Opening | Seize The Day"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
                     </iframe>
-                </div>
-                <GuestBook
-                    sendMessage={SendMessage}
-                    guestbookInput={guestbookInput}
-                    setGuestbookInput={setGuestbookInput}
-                    guestbookMessages={guestbookMessages}
-                    setGuestbookMessages={setGuestbookMessages}
-                    activeUser={activeUser} />
+                    </div>
+                    <GuestBook
+                        sendMessage={SendMessage}
+                        guestbookInput={guestbookInput}
+                        setGuestbookInput={setGuestbookInput}
+                        guestbookMessages={guestbookMessages}
+                        setGuestbookMessages={setGuestbookMessages}
+                        activeUser={activeUser} />
             </div>
         </>
     );

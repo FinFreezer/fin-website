@@ -69,6 +69,7 @@
 }
 
 .delete-message-button {
+  margin-left: 5px;
   background-color: rgba(207, 212, 243, 0);
   height: 20px;
   width: 10px;
