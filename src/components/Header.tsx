@@ -87,7 +87,7 @@ export function Header({ activeUser, setActiveUser }:
         if (response.status === 200) {
             currentUser = {
                 Username: nameInput,
-                Admin: true,
+                Admin: response.data.authorization || false,
             }
             setActiveUser(currentUser!);
         }
