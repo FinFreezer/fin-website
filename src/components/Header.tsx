@@ -103,7 +103,7 @@ export function Header({ activeUser, setActiveUser }:
                     { withCredentials: true },
                 );
             } else {
-                await axios.post('/api/logout', {}, { withCredentials: true });
+                await axios.post('/api/logout', { name: 'unset' }, { withCredentials: true });
             }
 
             setActiveUser(null);
