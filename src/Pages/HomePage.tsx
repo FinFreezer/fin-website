@@ -90,14 +90,29 @@ export function HomePage({ activeUser, setActiveUser }:
         setGuestbookInput('');
     }
 
-    function WipeGuestbook() {
+    /*function WipeGuestbook() {
+        let status = 0;
         const wipeDatabase = async () => {
-            const response = await axios.post("/api/wipeEntries", { hasPrivilege: activeUser?.Admin });
+            const response = await axios.post("/dev/wipeEntries", { hasPrivilege: activeUser?.Admin });
             console.log(`Received reply with message ${response.data} and status ${response.status}.`);
+            status = response.status;
         }
-        wipeDatabase();
-        setGuestbookMessages([]);
-    }
+        if (status < 300 && status > 199) {
+            wipeDatabase();
+            setGuestbookMessages([]);
+        }
+        return
+    }*/
+    const WipeGuestbook = async () => {
+        const response = await axios.post("/dev/wipeEntries", {
+            hasPrivilege: activeUser?.Admin
+        });
+        console.log(`Received reply: ${response.data} (status ${response.status})`);
+        if (response.status >= 200 && response.status < 300) {
+            setGuestbookMessages([]);
+        }
+        return
+    };
 
     return (
         <>
@@ -198,15 +213,17 @@ function GuestbookMessageDisplay({ guestbookMessages, activeUser, setGuestbookMe
             (message) => message.id === messageId
         );
         const removeFromDatabase = async (message: GuestbookMessageType) => {
-            const response = await axios.post("/api/deleteEntry", { id: message.id });
+            const response = await axios.post("/dev/deleteEntry", { id: message.id });
             console.log(`Received reply with message ${response.data} and status ${response.status}.`)
+            if (response.status <= 299 && response.status >= 200) {
+                setGuestbookMessages(updatedMessages);
+            }
         }
         if (messageToRemove.length > 1) {
             console.log("Fatal error: Potential clash in unique IDs found.");
             return
         }
         removeFromDatabase(messageToRemove[0]);
-        setGuestbookMessages(updatedMessages);
     }
     if (guestbookLoading) {
         return (
